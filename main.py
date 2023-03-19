@@ -1,12 +1,15 @@
 # File created by: Diegeo Avila
 
-# import libs
+# testing changes
+
+# import libraries
 import pygame as pg
 import random
 import os
 # import settings 
 from settings import *
 from sprites import *
+from random import randint
 # from pg.sprite import Sprite
 
 # set up assets folders
@@ -16,8 +19,7 @@ img_folder = os.path.join(game_folder, "img")
 def get_mouse_now():
     x,y = pg.mouse.get_pos()
     return (x,y)
-
-
+    
 # init pg and create window
 pg.init()
 # init sound mixer
@@ -28,15 +30,25 @@ clock = pg.time.Clock()
 
 all_sprites = pg.sprite.Group()
 enemies = pg.sprite.Group()
+pewpews = pg.sprite.Group()
 
 # player is instantiated here
 player = Player()
+player.rect.x = 5
 invader = Mob()
+invader.image.fill((0,0,255))
+invader.vel = vec(randint(8,80), randint(8,80))
+
+for i in range(0,10):
+    m = Mob()
+    m.vel = vec(randint(8,80),randint(8,80))
+    all_sprites.add(m)
+    enemies.add(m)
 
 # testSprite = Sprite()
 # testSprite.image = pg.Surface((50,50))
 # testSprite.image.fill(GREEN)
-#  testSprite.rect = testSprite.image.get_rect()
+# testSprite.rect = testSprite.image.get_rect()
 # testSprite.rect.center = (WIDTH / 2, HEIGHT / 2)
 all_sprites.add(player)
 all_sprites.add(invader)
@@ -57,7 +69,7 @@ while RUNNING:
     ### update section of game loop (if updates take longer the 1/30th of a second, you will get laaaaag...)
     all_sprites.update()
 
-    blocks_hit_list = pg.sprite.spritecollide(player, enemies, True)
+    blocks_hit_list = pg.sprite.spritecollide(player, enemies, False)
     for block in blocks_hit_list:
         # print(enemies)
         pass

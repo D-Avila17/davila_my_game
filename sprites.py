@@ -11,9 +11,10 @@ vec = pg.math.Vector2
 # create a player
 
 class Player(Sprite):
-    def _init_(self):
-        Sprite._init_(self)
+    def __init__(self):
+        Sprite.__init__(self)
         self.image = pg.Surface((50,50))
+        self.image = pg.transform.scale((50,38))
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
         self.pos = vec(WIDTH/2, HEIGHT/2)
@@ -47,8 +48,8 @@ class Player(Sprite):
             print("I'm off the bottom screen...")
 
 class Mob(Sprite):
-    def _init_(self):
-        Sprite._init_(self)
+    def __init__(self):
+        Sprite.__init__(self)
         self.image = pg.Surface((50,50))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
@@ -58,10 +59,11 @@ class Mob(Sprite):
         self.cofric = 0.1
         self.canjump = False
     def behavior(self):
-        if self.rect.x > WIDTH or self.rect.x <0 or self.rect.y > HEIGHT or self.rect.y >0:
-            self.vel.x *= -1
-        
+        if self.rect.x > WIDTH or self.rect.x < 0 or self.rect.y > HEIGHT or self.rect.y < 0:
+            self.vel *= -1
+
     def update(self):
         self.behavior()
         self.pos += self.vel
         self.rect.center = self.pos
+        

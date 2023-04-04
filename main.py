@@ -6,11 +6,14 @@
 # testing github changes
 # I changed something - I changed something else tooooo!
 
-# This file was created by: Chris Cozort
+# This file was created by: Diego Avila
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
+# Sources: https://kidscancode.org/blog/2016/08/pygame_shmup_part_3/
 # Sources: 
 
 '''
+Game structure:
+GOALS; RULES; FEEDBACK; FREEDOM
 My goal is:
 
 Slime mob
@@ -45,6 +48,7 @@ class Game:
         pg.display.set_caption("my game")
         self.clock = pg.time.Clock()
         self.running = True
+        self.score = 0
         print(self.screen)
     def new(self):
         # starting a new game
@@ -88,6 +92,14 @@ class Game:
                     self.player.jump()
     def update(self):
         self.all_sprites.update()
+
+        mhits = pg.sprite.spritecollide(self.player, self.enemies, False)
+        if mhits:
+            if abs(self.player.vel.x) > abs(self.player.vel.y):
+                self.player.vel.x *= -1
+            else:
+                self.player.vel.y *= -1
+
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
@@ -108,7 +120,7 @@ class Game:
     def draw_text(self, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)
-        text_surface = font.render(text, True, color)
+        text_surface = font.render(text, True, WHITE)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x,y)
         self.screen.blit(text_surface, text_rect)

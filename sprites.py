@@ -41,14 +41,14 @@ class Player(Sprite):
         #     else:
         #         PAUSED = False
         #         print(PAUSED)
-    # ...
+    # when player hits platform they will jump
     def jump(self):
         self.rect.x += 1
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
         self.rect.x -= 1
         if hits:
             self.vel.y = -PLAYER_JUMP
-    
+    # player stays inbounds of screen
     def inbounds(self):
         if self.rect.x > WIDTH - 50:
             self.pos.x = WIDTH - 25
@@ -62,6 +62,7 @@ class Player(Sprite):
             print("i am off the bottom of the screen")
         if self.rect.y < 0:
             print("i am off the top of the screen...")
+    # When player collides with enemy it is true
     def mob_collide(self):
             hits = pg.sprite.spritecollide(self, self.game.enemies, True)
             if hits:
@@ -76,6 +77,7 @@ class Player(Sprite):
         self.pos += self.vel + 0.5 * self.acc
         self.rect.midbottom = self.pos
 
+# mob class
 class Mob(Sprite):
     def __init__(self,width,height, color):
         Sprite.__init__(self)
@@ -90,7 +92,7 @@ class Mob(Sprite):
         self.vel = vec(randint(1,5),randint(1,5))
         self.acc = vec(1,1)
         self.cofric = 0.01
-    # ...
+    # the mobs stay inbounds of the screen
     def inbounds(self):
         if self.rect.x > WIDTH:
             self.vel.x *= -1
@@ -112,7 +114,6 @@ class Mob(Sprite):
         self.rect.center = self.pos
 
 # create a new platform class...
-
 class Platform(Sprite):
     def __init__(self, x, y, width, height, color, variant):
         Sprite.__init__(self)
